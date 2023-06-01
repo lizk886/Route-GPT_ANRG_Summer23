@@ -1,5 +1,3 @@
-#Use G(n,p) to randomly generate around 100 graphs (presented in adjacency matrix). There are two factors at this current stage: number of nodes, number of edges. Assuming all the edges weigh the same.
-
 import networkx as nx
 import pandas as pd
 import numpy as np
@@ -8,24 +6,27 @@ import numpy as np
 num_node = 5
 prob = 0.5
 
-# A list to hold the adjacency matrices
-adj_matrices = []
+# A list to hold the adjacency arrays
+adj_arrays = []
 
-# Generate 10 random graphs and their adjacency matrices
-for _ in range(10):
+# Generate 10 random graphs and their adjacency arrays
+for _ in range(100):
     G = nx.gnp_random_graph(num_node, prob)
-    adj_matrix = nx.adjacency_matrix(G).todense()  # Converts sparse matrix to dense
-    adj_matrices.append(adj_matrix)
+    adj_array = nx.adjacency_matrix(G).todense().tolist()  # Converts matrix to 2D array
+    adj_arrays.append(adj_array)
+    print(f'Graph_{_+1}:', adj_array)
 
-# Convert the adjacency matrices to pandas DataFrames
-df_list = [pd.DataFrame(np.array(matrix)) for matrix in adj_matrices]
+# Convert the adjacency arrays to string representation
+adj_arrays_str = ["\n".join(map(str, arr)) for arr in adj_arrays]
+
+# Convert the adjacency array strings to a pandas DataFrame
+df = pd.DataFrame(adj_arrays_str)
 
 # Create a new Excel writer object
-writer = pd.ExcelWriter('graph_adjacency_matrices.xlsx')
+writer = pd.ExcelWriter('result.xlsx')
 
-# Write each DataFrame to a separate sheet in the Excel file
-for i, df in enumerate(df_list):
-    df.to_excel(writer, sheet_name=f'Graph_{i+1}')
+# Write DataFrame to the Excel file
+df.to_excel(writer)
 
 # Save the Excel file
 writer.save()
