@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 # Define the number of nodes and the probability
-num_nodes = 5
+num_node = 5
 prob = 0.5
 
 # A list to hold the adjacency matrices
@@ -13,7 +13,7 @@ adj_matrices = []
 
 # Generate 10 random graphs and their adjacency matrices
 for _ in range(10):
-    G = nx.gnp_random_graph(num_nodes, prob)
+    G = nx.gnp_random_graph(num_node, prob)
     adj_matrix = nx.adjacency_matrix(G).todense()  # Converts sparse matrix to dense
     adj_matrices.append(adj_matrix)
 
